@@ -1,25 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
+    <p>Fill in your first name and last name in the 1st field, and fill in your first name in the 2nd field, then click submit. You will receive an error message if the email is invalid.</p>
+
     <h1>Hello {{ name }}!</h1>
     
     <form method="POST" action="/">
         {{ form.hidden_tag() }}
         <div class="form-group">
             {{ form.name.label }}
-            {{ form.name(class="form-control") }}
+            {{ form.name(class="form-control", placeholder="Enter your first and last name", required=True) }}
         </div>
         <div class="form-group">
             {{ form.email.label }}
-            {{ form.email(class="form-control") }}
+            {{ form.email(class="form-control", placeholder="Enter your UofT email address", 
+                pattern="[a-zA-Z0-9._%+-]+@mail.utoronto.ca", required=True) }}
+            <small class="form-text text-muted">Please enter a valid UofT email (e.g., yourname@mail.utoronto.ca).</small>
         </div>
         <div class="form-group">
             {{ form.submit(class="btn btn-primary") }}
         </div>
     </form>
-
-    {% if name and email %}
-        <p>Your name: {{ name }}</p>
-        <p>Your email: {{ email }}</p>
-    {% endif %}
 {% endblock %}
