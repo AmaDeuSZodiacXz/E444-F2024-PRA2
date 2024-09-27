@@ -1,20 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <p>Fill in your first name and last name in the 1st field, and fill in your first name in the 2nd field, then click submit. You will receive an error message if the email is invalid.</p>
-
-    <h1>Hello {{ name }}!</h1>
+    <h1>Hello {{ name or 'there' }}!</h1>
     
-    <form method="POST" action="/">
+    <!-- Flash message for changed name/email -->
+    {% for message in get_flashed_messages() %}
+        <div class="alert alert-warning" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+    
+    <form method="POST" action="/" novalidate> <!-- Add 'novalidate' to disable browser validation -->
         {{ form.hidden_tag() }}
         <div class="form-group">
             {{ form.name.label }}
-            {{ form.name(class="form-control", placeholder="Enter your first and last name", required=True) }}
+            {{ form.name(class="form-control", placeholder="Enter your first and last name") }}
         </div>
         <div class="form-group">
             {{ form.email.label }}
-            {{ form.email(class="form-control", placeholder="Enter your UofT email address", 
-                pattern="[a-zA-Z0-9._%+-]+@mail.utoronto.ca", required=True) }}
+            {{ form.email(class="form-control", placeholder="Enter your UofT email address") }}
             <small class="form-text text-muted">Please enter a valid UofT email (e.g., yourname@mail.utoronto.ca).</small>
         </div>
         <div class="form-group">
